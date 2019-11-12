@@ -8,7 +8,7 @@ fi
 
 #OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
 
-SPEC=api.yaml
+SPEC=TS29507_Npcf_AMPolicyControl.yaml
 GENERATOR=java-vertx-web
 OUT_DIR=java-vertx-web
 
