@@ -1209,11 +1209,12 @@ components:
           $ref: '#/components/schemas/5QiPriorityLevel'
     Area:
       type: object
-      oneOf:
-        - required:
-          - tacs
-        - required:
-          - areaCode
+      # fields missing 
+      #      oneOf:
+      #        - required:
+      #          - tacs
+      #        - required:
+      #          - areaCode
       properties:
         tacs:
           type: array
@@ -1235,41 +1236,42 @@ components:
           $ref: '#/components/schemas/Uinteger'
         maxNumOfTAsForNotAllowedAreas:
           $ref: '#/components/schemas/Uinteger'
-      allOf:
-        #
-        # 1st condition: restrictionType and areas attributes shall be either both absent
-        #                or both present
-        #
-        - oneOf:
-            - not:
-                required: [ restrictionType ]
-            - required: [ areas ]
-        #
-        # 2nd condition: if restrictionType takes value NOT_ALLOWED_AREAS,
-        #                then maxNumOfTAs shall be absent
-        #
-        - anyOf:
-            - not:
-                required: [ restrictionType ]
-                properties:
-                  restrictionType:
-                    type: string
-                    enum: [ NOT_ALLOWED_AREAS ]
-            - not:
-                required: [ maxNumOfTAs ]
-        #
-        # 3rd condition: if restrictionType takes value ALLOWED_AREAS,
-        #                then maxNumOfTAsForNotAllowedAreas shall be absent
-        #
-        - anyOf:
-            - not:
-                required: [ restrictionType ]
-                properties:
-                  restrictionType:
-                    type: string
-                    enum: [ ALLOWED_AREAS ]
-            - not:
-                required: [ maxNumOfTAsForNotAllowedAreas ]
+          # RuntimeException
+          #      allOf:
+          #        #
+          #        # 1st condition: restrictionType and areas attributes shall be either both absent
+          #        #                or both present
+          #        #
+          #        - oneOf:
+          #            - not:
+          #                required: [ restrictionType ]
+          #            - required: [ areas ]
+          #        #
+          #        # 2nd condition: if restrictionType takes value NOT_ALLOWED_AREAS,
+          #        #                then maxNumOfTAs shall be absent
+          #        #
+          #        - anyOf:
+          #            - not:
+          #                required: [ restrictionType ]
+          #                properties:
+          #                  restrictionType:
+          #                    type: string
+          #                    enum: [ NOT_ALLOWED_AREAS ]
+          #            - not:
+          #                required: [ maxNumOfTAs ]
+          #        #
+          #        # 3rd condition: if restrictionType takes value ALLOWED_AREAS,
+          #        #                then maxNumOfTAsForNotAllowedAreas shall be absent
+          #        #
+          #        - anyOf:
+          #            - not:
+          #                required: [ restrictionType ]
+          #                properties:
+          #                  restrictionType:
+          #                    type: string
+          #                    enum: [ ALLOWED_AREAS ]
+          #            - not:
+          #                required: [ maxNumOfTAsForNotAllowedAreas ]
     PresenceInfo:
       type: object
       properties:
@@ -1337,10 +1339,11 @@ components:
           $ref: '#/components/schemas/NgeNbId'
         nid:
           $ref: '#/components/schemas/Nid'
-      oneOf:
-        - required: [ n3IwfId ]
-        - required: [ gNbId ]
-        - required: [ ngeNbId ]
+          # fields missing 
+          #      oneOf:
+          #        - required: [ n3IwfId ]
+          #        - required: [ gNbId ]
+          #        - required: [ ngeNbId ]
       required:
         - plmnId
     GNbId:
