@@ -14,60 +14,168 @@ servers:
         description: apiRoot as defined in subclause subclause 4.4 of 3GPP TS 29.501
 
 paths:
-  /validations/parameters/queries/json:
+  /testOneOf:
     get:
-      operationId: testJsonQueryParam
-      parameters:
-        - name: ipv4Addr
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/Ipv4Addr'
-        - name: snssai
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/Snssai'
-        - name: plmnId
-          in: query
-          required: false
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlmnId'
+      operationId: testOneOf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DummyRequest'
       responses:
         '200':
           description: OK
 
 components:
   schemas:
-    Ipv4Addr:
-      type: string
-    Mcc:
-      type: string
-      pattern: '^\d{3}$'
-    Mnc:
-      type: string
-      pattern: '^\d{2,3}$'
-    PlmnId:
+
+    DummyRequest:
       type: object
       properties:
-        mcc:
-          $ref: '#/components/schemas/Mcc'
-        mnc:
-          $ref: '#/components/schemas/Mnc'
+        area:
+          $ref: '#/components/schemas/Area'
+        globalRanNodeId:
+          $ref: '#/components/schemas/GlobalRanNodeId'
+#        linksValueSchema:
+#          $ref: '#/components/schemas/LinksValueSchema'
+        complexQuery:
+          $ref: '#/components/schemas/ComplexQuery'
+
+
+    # Test 01
+    # OneOf properties
+
+    Area:
+      type: object
+      oneOf:
+        - required:
+          - tacs
+        - required:
+          - areaCode
+      properties:
+        tacs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tac'
+          minItems: 1
+        areaCode:
+            $ref: '#/components/schemas/AreaCode'
+
+
+    # Test 02
+    # Another OneOf properties
+
+    GlobalRanNodeId:
+      type: object
+      properties:
+        n3IwfId:
+          $ref: '#/components/schemas/N3IwfId'
+        gNbId:
+          $ref: '#/components/schemas/GNbId'
+        ngeNbId:
+          $ref: '#/components/schemas/NgeNbId'
+        nid:
+          $ref: '#/components/schemas/Nid'
+      oneOf:
+        - required: [ n3IwfId ]
+        - required: [ gNbId ]
+        - required: [ ngeNbId ]
+
+
+    # Test 03
+    # Can be an array, or single item
+
+#    LinksValueSchema:
+#      oneOf:
+#        - type: array
+#          items:
+#            $ref: '#/components/schemas/Link'
+#          minItems: 1
+#        - $ref: '#/components/schemas/Link'
+
+
+    # Test 04
+    # Direct Reference OneOf
+
+    ComplexQuery:
+      oneOf:
+        - $ref: '#/components/schemas/Cnf'
+        - $ref: '#/components/schemas/Dnf'
+
+
+
+    # Rest of unimportant schemas
+
+    Cnf:
+      type: object
       required:
-        - mcc
-        - mnc
-    Snssai:
-      type: object
+        - cnfUnits
       properties:
-        sst:
-          type: integer
-          minimum: 0
-          maximum: 255
-        sd:
+        cnfUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/CnfUnit'
+          minItems: 1
+    Dnf:
+      type: object
+      required:
+        - dnfUnits
+      properties:
+        dnfUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/DnfUnit'
+          minItems: 1
+    CnfUnit:
+      type: object
+      required:
+        - cnfUnit
+      properties:
+        cnfUnit:
+          type: array
+          items:
+            $ref: '#/components/schemas/Atom'
+          minItems: 1
+    DnfUnit:
+      type: object
+      required:
+        - dnfUnit
+      properties:
+        dnfUnit:
+          type: array
+          items:
+            $ref: '#/components/schemas/Atom'
+          minItems: 1
+    Atom:
+      type: object
+      required:
+        - attr
+        - value
+      properties:
+        attr:
           type: string
-          pattern: '^[A-Fa-f0-9]{6}$'
-      required:
-        - sst
+        value: {}
+        negative:
+          type: boolean
+
+    Tac:
+      type: string
+    AreaCode:
+      type: string
+    N3IwfId:
+      type: string
+    GNbId:
+      type: string
+    NgeNbId:
+      type: string
+    Nid:
+      type: string
+    Link:
+      type: object
+      properties:
+        href:
+          $ref: '#/components/schemas/Uri'
+    Uri:
+      type: string
+
