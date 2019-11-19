@@ -1,18 +1,25 @@
 #!/bin/bash
 
-GENERATOR_CLI=./openapi-generator-cli.jar
-
-if [[ ! -f ${GENERATOR_CLI} ]]; then
-    wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.2.0/openapi-generator-cli-4.2.0.jar -O openapi-generator-cli.jar
-fi
-
+#unset OPTS
 #OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
 
-SPEC=api.yaml
+GENERATOR_CLI=./openapi-generator-cli.jar
+SPEC=petstore.yaml
 GENERATOR=java-vertx-web
 OUT_DIR=java-vertx-web
+VERSION=4.2.1
+
+if [[ ! -f ${GENERATOR_CLI} ]]; then
+    wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/${VERSION}/openapi-generator-cli-${VERSION}.jar -O openapi-generator-cli.jar
+fi
+
+if [[ ! -f ${SPEC} ]]; then
+    wget https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+    SPEC=petstore.yaml
+fi
 
 [[ -d $OUT_DIR ]] && rm -rf $OUT_DIR
+
 
 java $OPTS -jar $GENERATOR_CLI generate \
          -i $SPEC \
