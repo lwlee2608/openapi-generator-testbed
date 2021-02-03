@@ -7,10 +7,10 @@ GENERATOR_CLI=./openapi-generator-cli.jar
 SPEC=petstore.yaml
 GENERATOR=java-vertx-web
 OUT_DIR=java-vertx-web
-VERSION=4.2.1
+VERSION=5.0.0
 
 if [[ ! -f ${GENERATOR_CLI} ]]; then
-    wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/${VERSION}/openapi-generator-cli-${VERSION}.jar -O openapi-generator-cli.jar
+    wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${VERSION}/openapi-generator-cli-${VERSION}.jar -O openapi-generator-cli.jar
 fi
 
 if [[ ! -f ${SPEC} ]]; then
