@@ -7,7 +7,7 @@ GENERATOR_CLI=./openapi-generator-cli.jar
 SPEC=TS32291_Nchf_ConvergedCharging.yaml
 GENERATOR=java-vertx-web
 OUT_DIR=java-vertx-web
-VERSION=5.0.1
+VERSION=5.0.0
 
 if [[ ! -f ${GENERATOR_CLI} ]]; then
     wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${VERSION}/openapi-generator-cli-${VERSION}.jar -O openapi-generator-cli.jar
@@ -19,4 +19,5 @@ fi
 java $OPTS -jar $GENERATOR_CLI generate \
          -i $SPEC \
          -g $GENERATOR \
-         -o $OUT_DIR
+         -o $OUT_DIR \
+         --additional-properties ignoreAnyOfInEnum=true
