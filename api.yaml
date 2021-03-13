@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  description: 
+  version: "1.0.0"
+  title: 
+externalDocs:
+  description: 
+  url:
+servers:
+  - url:
+    variables:
+      apiRoot:
+        default: https://example.com
+        description:
+
+paths:
+  /testOneOf:
+    get:
+      operationId: testOneOf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DummyRequest'
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    DummyRequest:
+      type: object
+      properties:
+        changeType:
+          $ref: '#/components/schemas/ChangeType'
+    ChangeType:
+      anyOf:
+        - type: string
+          enum:
+            - ADD
+            - MOVE
+            - REMOVE
+            - REPLACE
+        - type: string
